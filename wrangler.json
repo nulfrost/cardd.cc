@@ -1,0 +1,18 @@
+{
+  "name": "tiles",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-08-07",
+  "kv_namespaces": [
+    {
+      "binding": "TILES_KV",
+      "id": "6cc8e4b4255c4f91bda5b32c6b8505b8",
+      "preview_id": "5bb93eee024649acbf60b96c685b98cd"
+    }
+  ],
+  "rules": [
+    { "type": "Data", "globs": ["**/*.ttf"], "fallthrough": true }
+  ],
+  "observability": {
+    "enabled": true
+  }
+}
