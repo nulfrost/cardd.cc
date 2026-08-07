@@ -8,8 +8,8 @@ import LandingPage from "./pages/LandingPage.js";
 const app = new Hono<{ Bindings: Env }>();
 
 app.get("/badge/*", staticHandler);
-app.get("/npm/v/:pkg", versionHandler);
-app.get("/npm/d/:pkg", downloadsHandler);
+app.get("/npm/v/*", versionHandler);
+app.get("/npm/d/*", downloadsHandler);
 
 app.get("/fonts/Datatype-Regular.ttf", (c) => {
   return c.body(BUNDLED_FONT_DATA, 200, {

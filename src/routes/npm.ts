@@ -54,12 +54,12 @@ async function handleError(
   }
 }
 
-function param(c: Context, name: string): string {
-  return c.req.param(name)!;
+function pkgFromPath(c: Context, prefix: string): string {
+  return c.req.path.slice(prefix.length);
 }
 
 export async function versionHandler(c: Context<{ Bindings: Env }>) {
-  const pkg = param(c, "pkg");
+  const pkg = pkgFromPath(c, "/npm/v/");
 
   try {
     const resp = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg)}/latest`);
@@ -74,7 +74,7 @@ export async function versionHandler(c: Context<{ Bindings: Env }>) {
 }
 
 export async function downloadsHandler(c: Context<{ Bindings: Env }>) {
-  const pkg = param(c, "pkg");
+  const pkg = pkgFromPath(c, "/npm/d/");
 
   try {
     const resp = await fetch(
