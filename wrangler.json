@@ -1,6 +1,6 @@
 {
   "name": "tiles",
-  "main": "src/index.ts",
+  "main": "src/index.tsx",
   "compatibility_date": "2025-08-07",
   "kv_namespaces": [
     {
