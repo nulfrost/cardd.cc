@@ -43,7 +43,7 @@ async function fetchAndCache(
   if (!resp.ok) return null;
 
   const data = await resp.arrayBuffer();
-  await env.TILES_KV.put(kvKey, data, { expirationTtl: 86400 * 30 });
+  await env.CARDD_KV.put(kvKey, data, { expirationTtl: 86400 * 30 });
   return data;
 }
 
@@ -59,7 +59,7 @@ export async function loadFont(
 
   const kvKey = `font:${fontFamily}:${FONT_WEIGHT}`;
 
-  const cached = await env.TILES_KV.get(kvKey, "arrayBuffer");
+  const cached = await env.CARDD_KV.get(kvKey, "arrayBuffer");
   if (cached) {
     return [
       { name: fontFamily, data: cached as ArrayBuffer, weight: FONT_WEIGHT, style: "normal" },

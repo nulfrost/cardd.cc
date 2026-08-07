@@ -1,4 +1,4 @@
-# tiles
+# cardd
 
 SVG badge service for npm package authors, deployed to Cloudflare Workers.
 
@@ -69,8 +69,8 @@ tsconfig.json
 
 | Namespace | ID | Purpose |
 |---|---|---|
-| `tiles-cache` | `6cc8e4b4...` | Production |
-| `tiles-cache-preview` | `5bb93eee...` | Preview / `wrangler dev` |
+| `cardd-cache` | `6cc8e4b4...` | Production |
+| `cardd-cache-preview` | `5bb93eee...` | Preview / `wrangler dev` |
 
 ## Commands
 

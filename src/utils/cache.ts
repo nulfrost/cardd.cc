@@ -1,5 +1,5 @@
 export interface Env {
-  TILES_KV: KVNamespace;
+  CARDD_KV: KVNamespace;
 }
 
 const TTL = 3600;
@@ -8,7 +8,7 @@ export async function getCachedSVG(
   env: Env,
   key: string
 ): Promise<string | null> {
-  return env.TILES_KV.get(key);
+  return env.CARDD_KV.get(key);
 }
 
 export async function setCachedSVG(
@@ -16,7 +16,7 @@ export async function setCachedSVG(
   key: string,
   svg: string
 ): Promise<void> {
-  await env.TILES_KV.put(key, svg, { expirationTtl: TTL });
+  await env.CARDD_KV.put(key, svg, { expirationTtl: TTL });
 }
 
 export function cacheKey(url: string): string {
