@@ -1,14 +1,12 @@
 import { css } from "hono/css";
 
 const sidebarClass = css`
-  width: 180px;
-  height: calc(100vh - 104px);
-  flex: 0 0 auto;
+  grid-area: sidebar;
+  min-height: 0;
+  height: 100%;
   padding: 24px 16px;
-  border-right: 1px solid #333;
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
+  border-right: 1px solid var(--border-primary);
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -21,14 +19,14 @@ const sidebarClass = css`
   a {
     display: block;
     padding: 6px 10px;
-    color: #888;
+    color: var(--text-dim);
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: var(--radius);
     font-size: 16px;
     transition: color 0.15s, background 0.15s;
     &:hover {
-      color: #fff;
-      background: #222;
+      color: var(--text-primary);
+      background: var(--bg-tertiary);
     }
   }
      img {
@@ -36,25 +34,7 @@ const sidebarClass = css`
    }
 
   @media (max-width: 900px) {
-    width: 100%;
-    min-height: auto;
-    flex: 0 0 auto;
-    position: static;
-    padding: 8px 24px;
-    border-right: none;
-    border-bottom: 1px solid #333;
-    max-height: none;
-    overflow-y: visible;
-    order: 0;
-    ul {
-      display: flex;
-      gap: 4px;
-    }
-    li { margin-bottom: 0; }
-    a {
-      padding: 4px 10px;
-      font-size: 14px;
-    }
+    display: none;
   }
 `;
 

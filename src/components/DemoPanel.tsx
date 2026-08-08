@@ -1,34 +1,32 @@
 import { css } from "hono/css";
 
 const demoPanelClass = css`
-  flex: 0 1 350px;
-  position: sticky;
-  top: 0;
-  align-self: flex-start;
-  min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  border-left: 1px solid #333;
+  grid-area: panel;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border-primary);
   @media (max-width: 900px) {
-    flex: 0 0 auto;
-    min-height: auto;
-    padding: 16px 24px;
-    position: static;
-    max-height: none;
-    overflow-y: visible;
-    border-left: none;
-    order: -1;
+    display: none;
   }
+`;
+
+const demoSectionsClass = css`
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
 `;
 
 const demoSectionClass = css`
   padding: 24px 32px;
-  border-bottom: 1px solid #2a2a2a;
+  border-bottom: 1px solid var(--border-secondary);
   &:last-child { border-bottom: none; }
   h2 {
     margin: 0 0 12px 0;
     font-size: 14px;
-    color: #ddd;
+    color: var(--text-secondary);
   }
   @media (max-width: 900px) {
     margin-bottom: 16px;
@@ -37,43 +35,47 @@ const demoSectionClass = css`
 `;
 
 const hireMeClass = css`
+  flex-shrink: 0;
   padding: 24px 32px;
-  border-top: 1px solid #2a2a2a;
+  border-top: 1px solid var(--border-secondary);
   p {
     margin: 0 0 10px 0;
     font-size: 13px;
-    color: #888;
+    color: var(--text-dim);
     line-height: 1.5;
   }
   a {
     display: inline-block;
     padding: 5px 12px;
     font-size: 13px;
-    color: #58a6ff;
-    border: 1px solid #333;
-    border-radius: 4px;
+    color: var(--accent);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius);
     text-decoration: none;
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
     &:hover {
-      background: #222;
-      border-color: #58a6ff;
+      background: var(--bg-tertiary);
+      border-color: var(--accent);
     }
+  }
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
 const demoSelectClass = css`
-  font-family: Datatype, monospace;
+  font-family: var(--font-mono);
   font-size: 13px;
-  background: #222;
-  color: #ccc;
-  border: 1px solid #444;
+  background: var(--bg-tertiary);
+  color: var(--text-body);
+  border: 1px solid var(--border-input);
   padding: 5px 8px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   width: 100%;
   &:focus {
     outline: none;
-    border-color: #58a6ff;
+    border-color: var(--accent);
   }
   @media (max-width: 900px) {
     width: auto;
@@ -152,34 +154,36 @@ export default function DemoPanel() {
 
   return (
     <aside class={demoPanelClass}>
-      <DemoSection
-        title="Static badge"
-        endpoint="/partial/static"
-        paramName="preset"
-        staticPreset={STATIC_PRESETS}
-        firstValue={firstStatic.value}
-        firstLabel={firstStatic.label}
-        presets={[]}
-        srcPrefix={`/badge/${firstStatic.label}-${firstStatic.value}`}
-      />
+      <div class={demoSectionsClass}>
+        <DemoSection
+          title="Static badge"
+          endpoint="/partial/static"
+          paramName="preset"
+          staticPreset={STATIC_PRESETS}
+          firstValue={firstStatic.value}
+          firstLabel={firstStatic.label}
+          presets={[]}
+          srcPrefix={`/badge/${firstStatic.label}-${firstStatic.value}`}
+        />
 
-      <DemoSection
-        title="npm version"
-        endpoint="/partial/npm-v"
-        paramName="pkg"
-        presets={NPM_PACKAGES}
-        firstValue={firstNpm}
-        srcPrefix={`/npm/v/${firstNpm}`}
-      />
+        <DemoSection
+          title="npm version"
+          endpoint="/partial/npm-v"
+          paramName="pkg"
+          presets={NPM_PACKAGES}
+          firstValue={firstNpm}
+          srcPrefix={`/npm/v/${firstNpm}`}
+        />
 
-      <DemoSection
-        title="npm downloads"
-        endpoint="/partial/npm-d"
-        paramName="pkg"
-        presets={NPM_PACKAGES}
-        firstValue={firstNpm}
-        srcPrefix={`/npm/d/${firstNpm}`}
-      />
+        <DemoSection
+          title="npm downloads"
+          endpoint="/partial/npm-d"
+          paramName="pkg"
+          presets={NPM_PACKAGES}
+          firstValue={firstNpm}
+          srcPrefix={`/npm/d/${firstNpm}`}
+        />
+      </div>
 
       <div class={hireMeClass}>
         <p>Built by Jacob Stordahl. Available for contract work.</p>

@@ -10,31 +10,35 @@ const htmlBodyClass = css`
       margin: 0;
       padding: 0;
       height: 100%;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
     }
     body {
-      font-family: Datatype, monospace;
-      background: #111;
-      color: #ccc;
+      font-family: var(--font-mono);
+      background: var(--bg-primary);
+      color: var(--text-body);
       line-height: 1.6;
       display: flex;
       flex-direction: column;
     }
     h1 { 
-      color: #fff;
+      color: var(--text-primary);
       margin-top: 0;
     }
     h2 { 
-      color: #ddd; 
+      color: var(--text-secondary); 
       margin-top: 0;
     }
-    a { color: #58a6ff; }
+    a { color: var(--accent); }
     pre {
-      background: #1a1a1a;
+      background: var(--bg-secondary);
       padding: 16px;
-      border-radius: 4px;
+      border-radius: var(--radius);
       overflow-x: auto;
     }
-    code { color: #e6edf3; }
+    code { color: var(--text-code); }
     table { border-collapse: collapse; }
     td {
       padding: 6px 16px 6px 0;
@@ -44,11 +48,17 @@ const htmlBodyClass = css`
 `;
 
 const layoutClass = css`
-  flex: 1 1 auto;
-  display: flex;
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: 180px 1fr 350px;
+  grid-template-rows: 1fr;
+  grid-template-areas: "sidebar content panel";
   overflow: hidden;
   @media (max-width: 900px) {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas:
+      "content";
     overflow-y: auto;
   }
 `;
@@ -68,7 +78,7 @@ const fragmentGlobalClass = css`
       code {
         word-break: break-all;
         font-size: 13px;
-        color: #888;
+        color: var(--text-dim);
       }
     }
   }
@@ -84,6 +94,41 @@ export default function LandingPage() {
         <link rel="icon" href="https://fav.farm/🃏" />
         <script src="https://unpkg.com/htmx.org@2.0.5/dist/htmx.min.js"></script>
         <style>{`
+          :root {
+            --bg-primary: #111;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #222;
+            --text-primary: #fff;
+            --text-secondary: #ddd;
+            --text-body: #ccc;
+            --text-muted: #aaa;
+            --text-dim: #888;
+            --text-code: #e6edf3;
+            --accent: #58a6ff;
+            --border-primary: #333;
+            --border-secondary: #2a2a2a;
+            --border-input: #444;
+            --radius: 4px;
+            --font-mono: Datatype, monospace;
+            --header-height: 57px;
+          }
+          @media (prefers-color-scheme: light) {
+            :root {
+              --bg-primary: #fff;
+              --bg-secondary: #f6f8fa;
+              --bg-tertiary: #eaeef2;
+              --text-primary: #111;
+              --text-secondary: #333;
+              --text-body: #444;
+              --text-muted: #666;
+              --text-dim: #777;
+              --text-code: #24292f;
+              --accent: #0969da;
+              --border-primary: #d0d7de;
+              --border-secondary: #d8dee4;
+              --border-input: #d0d7de;
+            }
+          }
           @font-face {
             font-family: Datatype;
             src: url(/fonts/Datatype-Regular.ttf);
@@ -100,6 +145,17 @@ export default function LandingPage() {
           <MainContent />
           <DemoPanel />
         </div>
+        <script>{`
+          document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+              e.preventDefault();
+              const target = document.getElementById(link.getAttribute('href').slice(1));
+              if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+            });
+          });
+        `}</script>
       </body>
     </html>
   );

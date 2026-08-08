@@ -3,10 +3,11 @@ import BadgePreview from "./BadgePreview.js";
 import CodeBlock from "./CodeBlock.js";
 
 const contentClass = css`
-  flex: 1 1 auto;
+  grid-area: content;
+  min-height: 0;
+  position: relative;
   padding: 24px 32px;
   overflow-y: auto;
-  max-width: 750px;
   section {
     margin-bottom: 48px;
     &:last-child { margin-bottom: 0; }
@@ -16,16 +17,47 @@ const contentClass = css`
   }
   h4 {
     margin: 20px 0 8px 0;
-    color: #aaa;
+    color: var(--text-muted);
   }
   p {
     margin: 8px 0;
-    color: #aaa;
+    color: var(--text-muted);
   }
   @media (max-width: 900px) {
     padding: 24px;
     max-width: none;
-    order: 1;
+  }
+`;
+
+const mobileFooterClass = css`
+  display: none;
+  margin-top: 48px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border-primary);
+  text-align: center;
+  p {
+    margin: 0 0 10px 0;
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  a {
+    display: inline-block;
+    padding: 5px 12px;
+    font-size: 13px;
+    color: var(--accent);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--radius);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    &:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--accent);
+    }
+  }
+  @media (max-width: 900px) {
+    display: block;
   }
 `;
 
@@ -42,7 +74,7 @@ const badgesTableClass = css`
     white-space: nowrap;
   }
   td:nth-child(2) {
-    color: #888;
+    color: var(--text-dim);
     font-size: 14px;
   }
   pre {
@@ -53,7 +85,7 @@ const badgesTableClass = css`
 
 export default function MainContent() {
   return (
-    <main class={contentClass}>
+    <main id="main-content" class={contentClass}>
       <section id="overview">
         <h2>Overview</h2>
         <p>
@@ -268,6 +300,14 @@ export default function MainContent() {
           </tr>
         </table>
       </section>
+
+      <footer class={mobileFooterClass}>
+        <p>Built by Jacob Stordahl. Available for contract work.</p>
+        <a
+          href="#"
+          onclick="navigator.clipboard.writeText('jacob@stordahl.dev').then(function(){var t=this;t.textContent='Copied!';setTimeout(function(){t.textContent='Hire me'},2000)}.bind(this));return false"
+        >Hire me</a>
+      </footer>
     </main>
   );
 }
