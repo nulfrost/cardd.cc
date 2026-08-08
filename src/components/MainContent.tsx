@@ -1,4 +1,5 @@
 import { css } from "hono/css";
+import type { Badge } from "../badges/types.js";
 import BadgePreview from "./BadgePreview.js";
 import CodeBlock from "./CodeBlock.js";
 
@@ -83,7 +84,7 @@ const badgesTableClass = css`
   }
 `;
 
-export default function MainContent() {
+export default function MainContent({ badges }: { badges: Badge[] }) {
   return (
     <main id="main-content" class={contentClass}>
       <section id="overview">
@@ -97,30 +98,18 @@ export default function MainContent() {
       <section id="available-badges">
         <h2>Available Badges</h2>
         <table class={badgesTableClass}>
-          <tr>
-            <td><h3>Static badge</h3></td>
-            <td>Any label|value pair you define</td>
-            <td><BadgePreview src="/badge/license-MIT" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan={3}><CodeBlock>cardd.cc/badge/license-MIT</CodeBlock></td>
-          </tr>
-          <tr>
-            <td><h3>npm version</h3></td>
-            <td>Latest version from the npm registry</td>
-            <td><BadgePreview src="/npm/v/express" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan={3}><CodeBlock>cardd.cc/npm/v/express</CodeBlock></td>
-          </tr>
-          <tr>
-            <td><h3>npm downloads</h3></td>
-            <td>Weekly downloads from npm</td>
-            <td><BadgePreview src="/npm/d/express" alt="" /></td>
-          </tr>
-          <tr>
-            <td colspan={3}><CodeBlock>cardd.cc/npm/d/express</CodeBlock></td>
-          </tr>
+          {badges.map(badge => (
+            <>
+              <tr>
+                <td><h3>{badge.title}</h3></td>
+                <td>{badge.description}</td>
+                <td><BadgePreview src={badge.examplePath} alt="" /></td>
+              </tr>
+              <tr>
+                <td colspan={3}><CodeBlock>{`cardd.cc${badge.path}`}</CodeBlock></td>
+              </tr>
+            </>
+          ))}
         </table>
         <p>
           See the <a href="#api-reference">API Reference</a> for full details on
@@ -198,6 +187,18 @@ export default function MainContent() {
         <CodeBlock>?font=JetBrains+Mono</CodeBlock>
         <BadgePreview src="/badge/license-MIT?font=JetBrains+Mono" alt="JetBrains Mono font" />
 
+        <h3 id="customization-theme">Theme</h3>
+        <p>
+          <code>{`?theme=light|dark|auto`}</code> — Switch between dark and light presets.
+          <code>auto</code> renders both themes and uses <code>prefers-color-scheme</code> CSS
+          inside the SVG to toggle at runtime. Explicit <code>{`?bg`}</code> or
+          <code>{`?color`}</code> are ignored with <code>auto</code>. Defaults to <code>dark</code>.
+        </p>
+        <CodeBlock>?theme=light</CodeBlock>
+        <BadgePreview src="/badge/license-MIT?theme=light" alt="light theme" />
+        <CodeBlock>?theme=auto</CodeBlock>
+        <BadgePreview src="/badge/license-MIT?theme=auto" alt="auto theme" />
+
         <h3>Reference table</h3>
         <table>
           <thead>
@@ -244,40 +245,26 @@ export default function MainContent() {
             <td><code>Datatype</code></td>
             <td><code>font=Inter</code></td>
           </tr>
+          <tr>
+            <td><code>theme</code></td>
+            <td><code>light</code> | <code>dark</code> | <code>auto</code></td>
+            <td><code>dark</code></td>
+            <td><code>theme=light</code></td>
+          </tr>
         </table>
       </section>
 
       <section id="api-reference">
         <h2>API Reference</h2>
 
-        <h3 id="route-badge">GET /badge/:badge</h3>
-        <p>
-          Render a static badge from a label|value pair. The first <code>-</code> in
-          the path segment separates the label from the value. Labels and values may
-          contain additional hyphens. If the path contains no <code>-</code>, the
-          badge renders with an empty value.
-        </p>
-        <CodeBlock>{`cardd.cc/badge/{label}-{value}`}</CodeBlock>
-        <BadgePreview src="/badge/license-MIT" alt="license | MIT" />
-        <BadgePreview src="/badge/build-passing?bg=2ea44f" alt="build | passing" />
-
-        <h3 id="route-npm-v">GET /npm/v/:package</h3>
-        <p>
-          Look up the latest version of an npm package from <code>registry.npmjs.org</code>.
-          Renders <code>package | vX.Y.Z</code> on success. Returns an error badge for
-          unknown packages or upstream timeouts.
-        </p>
-        <CodeBlock>{"cardd.cc/npm/v/{package}"}</CodeBlock>
-        <BadgePreview src="/npm/v/express" alt="express version badge" />
-
-        <h3 id="route-npm-d">GET /npm/d/:package</h3>
-        <p>
-          Look up the last-week download count from <code>api.npmjs.org</code>.
-          Large numbers are abbreviated (e.g. <code>1.2M</code>, <code>450k</code>).
-          Renders an error badge for unknown packages or upstream timeouts.
-        </p>
-        <CodeBlock>{"cardd.cc/npm/d/{package}"}</CodeBlock>
-        <BadgePreview src="/npm/d/express" alt="express downloads badge" />
+        {badges.map(badge => (
+          <>
+            <h3 id={`route-${badge.id}`}>{badge.method} {badge.path}</h3>
+            <p>{badge.description}.</p>
+            <CodeBlock>{`cardd.cc${badge.path}`}</CodeBlock>
+            <BadgePreview src={badge.examplePath} alt={badge.title} />
+          </>
+        ))}
 
         <h3 id="route-fonts">GET /fonts/Datatype-Regular.ttf</h3>
         <p>

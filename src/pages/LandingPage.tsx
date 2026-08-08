@@ -84,7 +84,7 @@ const fragmentGlobalClass = css`
   }
 `;
 
-export default function LandingPage() {
+export default function LandingPage({ badges }: { badges: import("../badges/types.js").Badge[] }) {
   return (
     <html lang="en">
       <head>
@@ -142,8 +142,8 @@ export default function LandingPage() {
         <Header />
         <div class={layoutClass}>
           <Sidebar />
-          <MainContent />
-          <DemoPanel />
+          <MainContent badges={badges} />
+          <DemoPanel badges={badges} />
         </div>
         <script>{`
           document.querySelectorAll('nav a[href^="#"]').forEach(link => {

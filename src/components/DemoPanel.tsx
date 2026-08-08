@@ -1,4 +1,5 @@
 import { css } from "hono/css";
+import type { Badge, BadgePreset } from "../badges/types.js";
 
 const demoPanelClass = css`
   grid-area: panel;
@@ -83,106 +84,46 @@ const demoSelectClass = css`
   }
 `;
 
-type StaticPreset = { label: string; value: string };
+function DemoSection({ badge }: { badge: Badge }) {
+  const firstPreset = badge.demoPresets[0];
+  const firstValue = firstPreset?.value ?? "";
+  const initialPath = badge.buildDemoPath(firstValue);
 
-const STATIC_PRESETS: StaticPreset[] = [
-  { label: "license", value: "MIT" },
-  { label: "node", value: "18" },
-  { label: "docker", value: "ready" },
-];
-
-const NPM_PACKAGES = [
-  "express", "react", "lodash", "typescript",
-  "next", "vue", "axios", "tailwindcss",
-  "vite", "esbuild", "zod", "hono",
-];
-
-function DemoSection({
-  title,
-  endpoint,
-  paramName,
-  presets,
-  staticPreset,
-  firstValue,
-  firstLabel,
-  srcPrefix,
-}: {
-  title: string;
-  endpoint: string;
-  paramName: string;
-  presets: string[];
-  staticPreset?: StaticPreset[];
-  firstValue: string;
-  firstLabel?: string;
-  srcPrefix: string;
-}) {
   return (
     <section class={demoSectionClass}>
-      <h2>{title}</h2>
+      <h2>{badge.title}</h2>
       <form
         class="badge-form"
-        hx-get={endpoint}
+        hx-get={`/partial/${badge.id}`}
         hx-trigger="change"
         hx-target="next .demo-result"
         hx-swap="innerHTML"
       >
-        <select class={demoSelectClass} name={paramName}>
-          {staticPreset
-            ? staticPreset.map(p => (
-              <option value={`${p.label}|${p.value}`}>{p.label} | {p.value}</option>
-            ))
-            : presets.map(pkg => (
-              <option value={pkg}>{pkg}</option>
-            ))}
+        <select class={demoSelectClass} name="preset">
+          {badge.demoPresets.map((p: BadgePreset) => (
+            <option value={p.value}>{p.label}</option>
+          ))}
         </select>
       </form>
       <div class="demo-result">
         <div class="badge-preview">
-          <img class="badge-img" src={srcPrefix} alt={title} />
+          <img class="badge-img" src={initialPath} alt={badge.title} />
         </div>
         <div class="demo-url">
-          <code class="badge-code">{`cardd.cc${srcPrefix}`}</code>
+          <code class="badge-code">{`cardd.cc${initialPath}`}</code>
         </div>
       </div>
     </section>
   );
 }
 
-export default function DemoPanel() {
-  const firstStatic = STATIC_PRESETS[0];
-  const firstNpm = NPM_PACKAGES[0];
-
+export default function DemoPanel({ badges }: { badges: Badge[] }) {
   return (
     <aside class={demoPanelClass}>
       <div class={demoSectionsClass}>
-        <DemoSection
-          title="Static badge"
-          endpoint="/partial/static"
-          paramName="preset"
-          staticPreset={STATIC_PRESETS}
-          firstValue={firstStatic.value}
-          firstLabel={firstStatic.label}
-          presets={[]}
-          srcPrefix={`/badge/${firstStatic.label}-${firstStatic.value}`}
-        />
-
-        <DemoSection
-          title="npm version"
-          endpoint="/partial/npm-v"
-          paramName="pkg"
-          presets={NPM_PACKAGES}
-          firstValue={firstNpm}
-          srcPrefix={`/npm/v/${firstNpm}`}
-        />
-
-        <DemoSection
-          title="npm downloads"
-          endpoint="/partial/npm-d"
-          paramName="pkg"
-          presets={NPM_PACKAGES}
-          firstValue={firstNpm}
-          srcPrefix={`/npm/d/${firstNpm}`}
-        />
+        {badges.map(badge => (
+          <DemoSection badge={badge} />
+        ))}
       </div>
 
       <div class={hireMeClass}>

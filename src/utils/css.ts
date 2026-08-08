@@ -6,19 +6,34 @@ export interface BadgeCSS {
   borderStyle: string;
   borderColor: string;
   font: string;
+  theme: "dark" | "light" | "auto";
 }
 
-const DEFAULTS: BadgeCSS = {
-  bg: "#2d2d2e",
-  color: "#fff",
+const SHARED = {
   radius: 4,
   borderWidth: 0,
-  borderStyle: "solid",
-  borderColor: "#2d2d2e",
+  borderStyle: "solid" as const,
   font: "Datatype",
 };
 
+export const DARK = {
+  bg: "#2d2d2e",
+  color: "#fff",
+  borderColor: "#2d2d2e",
+};
+
+export const LIGHT = {
+  bg: "#f5f5f5",
+  color: "#333",
+  borderColor: "#d0d0d0",
+};
+
 export function parseCSS(searchParams: URLSearchParams): BadgeCSS {
+  const rawTheme = searchParams.get("theme");
+  const theme: BadgeCSS["theme"] =
+    rawTheme === "light" ? "light" : rawTheme === "auto" ? "auto" : "dark";
+  const colors = theme === "light" ? LIGHT : DARK;
+
   const hex = (v: string | null, fallback: string) =>
     v ? `#${v.replace(/^#/, "")}` : fallback;
 
@@ -29,21 +44,22 @@ export function parseCSS(searchParams: URLSearchParams): BadgeCSS {
   };
 
   const parsed: BadgeCSS = {
-    bg: hex(searchParams.get("bg"), DEFAULTS.bg),
-    color: hex(searchParams.get("color"), DEFAULTS.color),
-    radius: num(searchParams.get("radius"), DEFAULTS.radius),
-    borderWidth: num(searchParams.get("border"), DEFAULTS.borderWidth),
-    borderStyle: DEFAULTS.borderStyle,
-    borderColor: hex(searchParams.get("borderColor"), DEFAULTS.borderColor),
-    font: searchParams.get("font") ?? DEFAULTS.font,
+    bg: hex(searchParams.get("bg"), colors.bg),
+    color: hex(searchParams.get("color"), colors.color),
+    radius: num(searchParams.get("radius"), SHARED.radius),
+    borderWidth: num(searchParams.get("border"), SHARED.borderWidth),
+    borderStyle: SHARED.borderStyle,
+    borderColor: hex(searchParams.get("borderColor"), colors.borderColor),
+    font: searchParams.get("font") ?? SHARED.font,
+    theme,
   };
 
   const borderParam = searchParams.get("border");
   if (borderParam) {
     const parts = borderParam.split("+");
     if (parts.length >= 1) parsed.borderWidth = num(parts[0], 1);
-    if (parts.length >= 2) parsed.borderStyle = parts[1] || DEFAULTS.borderStyle;
-    if (parts.length >= 3) parsed.borderColor = hex(parts[2], DEFAULTS.borderColor);
+    if (parts.length >= 2) parsed.borderStyle = parts[1] || SHARED.borderStyle;
+    if (parts.length >= 3) parsed.borderColor = hex(parts[2], colors.borderColor);
   }
 
   return parsed;
