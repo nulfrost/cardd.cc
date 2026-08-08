@@ -27,11 +27,11 @@ Static badges use the path segment after `/badge/`, splitting on the first `-` t
 
 | Param | Example | Default |
 |---|---|---|
-| `bg` | `bg=2ea44f` | `#555` |
+| `bg` | `bg=2ea44f` | `#2d2d2e` |
 | `color` | `color=fff` | `#fff` |
 | `radius` | `radius=8` | `4` |
 | `border` | `border=2+solid+333` | none |
-| `borderColor` | `borderColor=f00` | `#555` |
+| `borderColor` | `borderColor=f00` | `#2d2d2e` |
 | `font` | `font=Inter` | `Datatype` |
 
 Plus `+` is used as the border shorthand delimiter. Hex values omit `#`.

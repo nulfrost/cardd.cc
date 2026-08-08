@@ -2,15 +2,16 @@ import { css } from "hono/css";
 
 const sidebarClass = css`
   width: 180px;
-  min-height: 100vh;
+  height: calc(100vh - 104px);
   flex: 0 0 auto;
   padding: 24px 16px;
   border-right: 1px solid #333;
   position: sticky;
   top: 0;
   align-self: flex-start;
-  max-height: 100vh;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   ul {
     list-style: none;
     margin: 0;
@@ -30,6 +31,10 @@ const sidebarClass = css`
       background: #222;
     }
   }
+     img {
+     width: 75px;
+   }
+
   @media (max-width: 900px) {
     width: 100%;
     min-height: auto;
@@ -58,10 +63,12 @@ export default function Sidebar() {
     <nav class={sidebarClass}>
       <ul>
         <li><a href="#overview">Overview</a></li>
-        <li><a href="#usage">Usage</a></li>
+        <li><a href="#available-badges">Available Badges</a></li>
         <li><a href="#customization">Customization</a></li>
-        <li><a href="#examples">Examples</a></li>
+        <li><a href="#api-reference">API Reference</a></li>
       </ul>
+
+      <img src="https://fav.farm/🃏" alt="" />
     </nav>
   );
 }

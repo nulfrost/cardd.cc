@@ -19,8 +19,14 @@ const htmlBodyClass = css`
       display: flex;
       flex-direction: column;
     }
-    h1 { color: #fff; }
-    h2 { color: #ddd; }
+    h1 { 
+      color: #fff;
+      margin-top: 0;
+    }
+    h2 { 
+      color: #ddd; 
+      margin-top: 0;
+    }
     a { color: #58a6ff; }
     pre {
       background: #1a1a1a;
@@ -74,7 +80,8 @@ export default function LandingPage() {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>cardd — SVG badges for npm</title>
+        <title>cardd.cc — customizable badges for the web</title>
+        <link rel="icon" href="https://fav.farm/🃏" />
         <script src="https://unpkg.com/htmx.org@2.0.5/dist/htmx.min.js"></script>
         <style>{`
           @font-face {

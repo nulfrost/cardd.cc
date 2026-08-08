@@ -9,12 +9,12 @@ export interface BadgeCSS {
 }
 
 const DEFAULTS: BadgeCSS = {
-  bg: "#555",
+  bg: "#2d2d2e",
   color: "#fff",
   radius: 4,
   borderWidth: 0,
   borderStyle: "solid",
-  borderColor: "#555",
+  borderColor: "#2d2d2e",
   font: "Datatype",
 };
 

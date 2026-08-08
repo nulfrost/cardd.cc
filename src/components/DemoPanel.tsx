@@ -1,7 +1,7 @@
 import { css } from "hono/css";
 
 const demoPanelClass = css`
-  flex: 0 1 300px;
+  flex: 0 1 350px;
   position: sticky;
   top: 0;
   align-self: flex-start;
@@ -127,11 +127,11 @@ function DemoSection({
         <select class={demoSelectClass} name={paramName}>
           {staticPreset
             ? staticPreset.map(p => (
-                <option value={`${p.label}|${p.value}`}>{p.label} | {p.value}</option>
-              ))
+              <option value={`${p.label}|${p.value}`}>{p.label} | {p.value}</option>
+            ))
             : presets.map(pkg => (
-                <option value={pkg}>{pkg}</option>
-              ))}
+              <option value={pkg}>{pkg}</option>
+            ))}
         </select>
       </form>
       <div class="demo-result">
