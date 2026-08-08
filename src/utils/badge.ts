@@ -22,14 +22,20 @@ export async function handleBadge(
   try {
     const render = css.theme === "auto" ? renderAutoBadge : renderBadge;
     const svg = await render(label, value, css, fonts);
-    await setCachedSVG(c.env, cacheKey(url), svg);
+    try {
+      await setCachedSVG(c.env, cacheKey(url), svg);
+    } catch {}
     return c.html(svg, 200, {
       "Content-Type": "image/svg+xml",
       "Cache-Control": "public, max-age=3600",
     });
   } catch {
-    const errorSvg = await renderErrorBadge("error", "render failed", css, fonts);
-    return c.html(errorSvg, 500, { "Content-Type": "image/svg+xml" });
+    try {
+      const errorSvg = await renderErrorBadge("error", "render failed", css, fonts);
+      return c.html(errorSvg, 500, { "Content-Type": "image/svg+xml" });
+    } catch {
+      return c.text("error", 500);
+    }
   }
 }
 
@@ -45,9 +51,9 @@ export async function handleError(
   }
 
   const css = parseCSS(new URL(url).searchParams);
-  const fonts = await loadFont(css.font, c.env);
 
   try {
+    const fonts = await loadFont(css.font, c.env);
     const svg = await renderErrorBadge(label, value, css, fonts);
     return c.html(svg, 500, { "Content-Type": "image/svg+xml" });
   } catch {

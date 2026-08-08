@@ -1,5 +1,6 @@
 export interface Env {
   CARDD_KV: KVNamespace;
+  GITHUB_TOKEN?: string;
 }
 
 const TTL = 3600;

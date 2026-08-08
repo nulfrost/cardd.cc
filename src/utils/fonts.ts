@@ -47,6 +47,10 @@ async function fetchAndCache(
   return data;
 }
 
+function bundled(): FontData[] {
+  return [{ name: "Datatype", data: BUNDLED_FONT_DATA, weight: FONT_WEIGHT, style: "normal" }];
+}
+
 export async function loadFont(
   fontFamily: string,
   env: Env,
@@ -57,22 +61,26 @@ export async function loadFont(
     ];
   }
 
-  const kvKey = `font:${fontFamily}:${FONT_WEIGHT}`;
+  try {
+    const kvKey = `font:${fontFamily}:${FONT_WEIGHT}`;
 
-  const cached = await env.CARDD_KV.get(kvKey, "arrayBuffer");
-  if (cached) {
+    const cached = await env.CARDD_KV.get(kvKey, "arrayBuffer");
+    if (cached) {
+      return [
+        { name: fontFamily, data: cached as ArrayBuffer, weight: FONT_WEIGHT, style: "normal" },
+      ];
+    }
+
+    const fontUrl = await tryGoogleFonts(fontFamily);
+    if (!fontUrl) return bundled();
+
+    const data = await fetchAndCache(fontUrl, kvKey, env);
+    if (!data) return bundled();
+
     return [
-      { name: fontFamily, data: cached as ArrayBuffer, weight: FONT_WEIGHT, style: "normal" },
+      { name: fontFamily, data, weight: FONT_WEIGHT, style: "normal" },
     ];
+  } catch {
+    return bundled();
   }
-
-  const fontUrl = await tryGoogleFonts(fontFamily);
-  if (!fontUrl) return [];
-
-  const data = await fetchAndCache(fontUrl, kvKey, env);
-  if (!data) return [];
-
-  return [
-    { name: fontFamily, data, weight: FONT_WEIGHT, style: "normal" },
-  ];
 }

@@ -1,4 +1,5 @@
 import type { Context } from "hono";
+import type { Env } from "../utils/cache.js";
 import { Badge } from "./types.js";
 
 function formatStars(n: number): string {
@@ -33,11 +34,20 @@ export class GhStarsBadge extends Badge {
   async fetch(c: Context) {
     const owner = c.req.param("owner") ?? "";
     const repo = c.req.param("repo") ?? "";
+    const env = c.env as Env;
+    const headers: Record<string, string> = {
+      "User-Agent": "cardd.cc",
+      Accept: "application/vnd.github.v3+json",
+    };
+    if (env.GITHUB_TOKEN) {
+      headers["Authorization"] = `Bearer ${env.GITHUB_TOKEN}`;
+    }
     const resp = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, {
-      headers: { "User-Agent": "cardd.cc", Accept: "application/vnd.github.v3+json" },
+      headers,
     });
     if (resp.status === 404) throw new Error("not found");
-    if (!resp.ok) throw new Error(`${resp.status}`);
+    if (resp.status === 403) throw new Error("rate limited");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const data = (await resp.json()) as { stargazers_count: number };
     return { label: `${owner}/${repo}`, value: formatStars(data.stargazers_count) };
   }
