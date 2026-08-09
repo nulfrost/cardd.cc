@@ -7,6 +7,7 @@ export interface BadgeCSS {
   borderColor: string;
   font: string;
   theme: "dark" | "light" | "auto";
+  size: "base" | "large";
 }
 
 const SHARED = {
@@ -14,6 +15,7 @@ const SHARED = {
   borderWidth: 0,
   borderStyle: "solid" as const,
   font: "Datatype",
+  size: "base" as const,
 };
 
 export const DARK = {
@@ -51,6 +53,7 @@ export function parseCSS(searchParams: URLSearchParams): BadgeCSS {
     borderStyle: SHARED.borderStyle,
     borderColor: hex(searchParams.get("borderColor"), colors.borderColor),
     font: searchParams.get("font") ?? SHARED.font,
+    size: searchParams.get("size") === "large" ? "large" : SHARED.size,
     theme,
   };
 

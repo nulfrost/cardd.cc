@@ -9,6 +9,7 @@ interface BadgeProps {
   css: BadgeCSS;
   height: number;
   fontSize: number;
+  paddingX: number;
 }
 
 export function badgeWidth(label: string, value: string, fontSize: number, paddingX: number, borderWidth: number): number {
@@ -18,14 +19,14 @@ export function badgeWidth(label: string, value: string, fontSize: number, paddi
   return Math.ceil(textWidth + paddingX * 2 + borderWidth * 2);
 }
 
-function Badge({ label, value, css, height, fontSize }: BadgeProps) {
+function Badge({ label, value, css, height, fontSize, paddingX }: BadgeProps) {
   return (
     <div
       style={{
         display: "flex",
         alignItems: "center",
         height: `${height}px`,
-        padding: `0 8px`,
+        padding: `0 ${paddingX}px`,
         backgroundColor: css.bg,
         color: css.color,
         borderRadius: `${css.radius}px`,
@@ -59,13 +60,14 @@ export async function renderBadge(
   css: BadgeCSS,
   fonts: FontData[],
 ): Promise<string> {
-  const fontSize = 11;
-  const height = 20;
-  const paddingX = 8;
+  const scale = css.size === "large" ? 1.2 : 1;
+  const fontSize = Math.round(11 * scale);
+  const height = Math.round(20 * scale);
+  const paddingX = Math.round(8 * scale);
   const width = badgeWidth(label, value, fontSize, paddingX, css.borderWidth);
 
   const svg = await satori(
-    <Badge label={label} value={value} css={css} height={height} fontSize={fontSize} />,
+    <Badge label={label} value={value} css={css} height={height} fontSize={fontSize} paddingX={paddingX} />,
     {
       width,
       height,

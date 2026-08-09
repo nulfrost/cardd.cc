@@ -62,24 +62,35 @@ const mobileFooterClass = css`
   }
 `;
 
-const badgesTableClass = css`
-  width: 100%;
-  tr:first-of-type td { padding-top: 0; }
-  h3 {
+const badgeCardClass = css`
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 24px;
+  &:last-child { margin-bottom: 0; }
+  .badge-card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 8px;
+  }
+  .badge-card-header h3 {
     margin: 0;
     font-size: 15px;
-    display: inline;
   }
-  td:first-child {
-    padding-right: 24px;
-    white-space: nowrap;
+  .badge-card-header img {
+    margin: 0;
   }
-  td:nth-child(2) {
+  .badge-card-header > div {
+    margin: 0;
+  }
+  p {
+    margin: 8px 0;
     color: var(--text-dim);
     font-size: 14px;
   }
   pre {
-    margin: 4px 0 20px 0;
+    margin: 4px 0 0 0;
     padding: 10px 14px;
   }
 `;
@@ -97,20 +108,16 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
 
       <section id="available-badges">
         <h2>Available Badges</h2>
-        <table class={badgesTableClass}>
-          {badges.map(badge => (
-            <>
-              <tr>
-                <td><h3>{badge.title}</h3></td>
-                <td>{badge.description}</td>
-                <td><BadgePreview src={badge.examplePath} alt="" /></td>
-              </tr>
-              <tr>
-                <td colspan={3}><CodeBlock>{`cardd.cc${badge.path}`}</CodeBlock></td>
-              </tr>
-            </>
-          ))}
-        </table>
+        {badges.map(badge => (
+          <div class={badgeCardClass}>
+            <div class="badge-card-header">
+              <h3>{badge.title}</h3>
+              <BadgePreview src={badge.examplePath} alt="" />
+            </div>
+            <p>{badge.description}</p>
+            <CodeBlock>{`cardd.cc${badge.path}`}</CodeBlock>
+          </div>
+        ))}
         <p>
           See the <a href="#api-reference">API Reference</a> for full details on
           each route, response codes, and error behavior.
@@ -199,6 +206,15 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
         <CodeBlock>?theme=auto</CodeBlock>
         <BadgePreview src="/badge/license-MIT?theme=auto" alt="auto theme" />
 
+        <h3 id="customization-size">Size</h3>
+        <p>
+          <code>{`?size=base|large`}</code> — Render a larger version of the badge.
+          <code>large</code> scales the badge 1.2x while preserving the aspect ratio.
+          Defaults to <code>base</code>.
+        </p>
+        <CodeBlock>?size=large</CodeBlock>
+        <BadgePreview src="/badge/license-MIT?size=large" alt="large badge" />
+
         <h3>Reference table</h3>
         <table>
           <thead>
@@ -250,6 +266,12 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
             <td><code>light</code> | <code>dark</code> | <code>auto</code></td>
             <td><code>dark</code></td>
             <td><code>theme=light</code></td>
+          </tr>
+          <tr>
+            <td><code>size</code></td>
+            <td><code>base</code> | <code>large</code></td>
+            <td><code>base</code></td>
+            <td><code>size=large</code></td>
           </tr>
         </table>
       </section>

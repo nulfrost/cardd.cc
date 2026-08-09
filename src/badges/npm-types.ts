@@ -30,7 +30,7 @@ export class NpmTypesBadge extends Badge {
       typings?: string;
     };
     const hasTypes = !!(data.types || data.typings);
-    return { label: pkg, value: hasTypes ? "included" : "none" };
+    return { label: pkg, value: hasTypes ? "types included" : "none" };
   }
 
   onError(err: Error, c: Context) {
