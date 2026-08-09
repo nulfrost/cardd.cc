@@ -6,6 +6,8 @@ import { BUNDLED_FONT_DATA } from "./utils/fonts.js";
 import { handleBadge, handleError } from "./utils/badge.js";
 import { BADGES } from "./badges/index.js";
 import LandingPage from "./pages/LandingPage.js";
+import { trackBadge } from "./utils/analytics.js";
+import { parseCSS } from "./utils/css.js";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -20,12 +22,18 @@ app.use(
 
 for (const badge of BADGES) {
   app[badge.method.toLowerCase() as "get"](badge.path, async (c) => {
+    const start = Date.now();
+    const theme = parseCSS(new URL(c.req.url).searchParams).theme;
     try {
       const { label, value } = await badge.fetch(c);
-      return handleBadge(c, label, value);
+      const response = await handleBadge(c, label, value);
+      trackBadge(c.env.BADGE_ANALYTICS, badge.id, "success", theme, Date.now() - start);
+      return response;
     } catch (err) {
       const { label, value } = badge.onError(err as Error, c);
-      return handleError(c, label, value);
+      const response = await handleError(c, label, value);
+      trackBadge(c.env.BADGE_ANALYTICS, badge.id, "error", theme, Date.now() - start);
+      return response;
     }
   });
 

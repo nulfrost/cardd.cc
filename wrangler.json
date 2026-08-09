@@ -9,6 +9,12 @@
       "preview_id": "5bb93eee024649acbf60b96c685b98cd"
     }
   ],
+  "analytics_engine_datasets": [
+    {
+      "binding": "BADGE_ANALYTICS",
+      "dataset": "badge_usage"
+    }
+  ],
   "ratelimits": [
     {
       "name": "BADGE_RATE_LIMITER",
