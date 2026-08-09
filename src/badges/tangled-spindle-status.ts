@@ -81,7 +81,10 @@ export class TangledSpindleStatus extends Badge {
   ];
 
   demoPresets = [
-    { label: "passing", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" },
+    { label: "tangled.org/core", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" },
+    { label: "aly.codes/snrld", value: "did:plc:5owm2kge6b5fzlizna5k6is4" },
+    { label: "jola.dev/annot.at", value: "did:plc:e7p3zvl4clvkrywuwamonsxo" },
+    { label: "tranquil.farm/tranquil-pds", value: "did:plc:jj6ajj6duxnlthwtnob4qyuv" }
   ];
 
   async fetch(c: Context) {
@@ -98,10 +101,10 @@ export class TangledSpindleStatus extends Badge {
 
     const isSuccessfulRun = spindle.pipelines[0].workflows[0].status === 'success';
 
-    return { label: "status", value: isSuccessfulRun ? "passing" : "failing" }
+    return { label: "ci", value: isSuccessfulRun ? "passing" : "failing" }
   }
 
   onError(err: Error) {
-    return { label: "status", value: err.message }
+    return { label: "ci", value: err.message }
   }
 }
