@@ -92,6 +92,12 @@ export default function LandingPage({ badges }: { badges: import("../badges/type
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>cardd.cc — customizable badges for the web</title>
         <link rel="icon" href="https://fav.farm/🃏" />
+        <meta property="og:image" content="https://cardd.cc/og.svg" />
+        <meta property="og:title" content="cardd.cc" />
+        <meta property="og:description" content="badges for the web" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content="https://cardd.cc/og.svg" />
         <script src="https://unpkg.com/htmx.org@2.0.5/dist/htmx.min.js"></script>
         <style>{`
           :root {
