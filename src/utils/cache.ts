@@ -1,5 +1,6 @@
 export interface Env {
   CARDD_KV: KVNamespace;
+  BADGE_RATE_LIMITER: RateLimit;
   GITHUB_TOKEN?: string;
 }
 

@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { jsxRenderer } from "hono/jsx-renderer";
+import { rateLimiter } from "hono-rate-limiter";
 import type { Env } from "./utils/cache.js";
 import { BUNDLED_FONT_DATA } from "./utils/fonts.js";
 import { handleBadge, handleError } from "./utils/badge.js";
@@ -7,6 +8,15 @@ import { BADGES } from "./badges/index.js";
 import LandingPage from "./pages/LandingPage.js";
 
 const app = new Hono<{ Bindings: Env }>();
+
+app.use(
+  rateLimiter<{ Bindings: Env }>({
+    binding: (c) => c.env.BADGE_RATE_LIMITER,
+    keyGenerator: (c) => c.req.header("cf-connecting-ip") ?? "",
+    skip: (c) =>
+      c.req.path === "/" || c.req.path === "/fonts/Datatype-Regular.ttf",
+  })
+);
 
 for (const badge of BADGES) {
   app[badge.method.toLowerCase() as "get"](badge.path, async (c) => {
