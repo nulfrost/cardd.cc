@@ -134,8 +134,8 @@ export default function DemoPanel({ badges }: { badges: Badge[] }) {
         <p>Built with ❤︎ in Minneapolis by <a href="https://stordahl.dev">Jacob Stordahl.</a></p>
         <div>
           <a class="button" href="https://bsky.app/profile/stordahl.dev">follow me</a>
-          <a class="button" href="https://stordahl.dev">hit me up</a>
-          <a class="button" href="#" data-copy="jacob@stordahl.dev">hire me</a>
+          <a class="button" href="#" data-copy="jacob@stordahl.dev">hit me up</a>
+          <a class="button" href="https://stordahl.dev">hire me</a>
         </div>
       </div>
     </aside>

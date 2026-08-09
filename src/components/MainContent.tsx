@@ -303,10 +303,7 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
 
       <footer class={mobileFooterClass}>
         <p>Built by Jacob Stordahl. Available for contract work.</p>
-        <a
-          href="#"
-          onclick="navigator.clipboard.writeText('jacob@stordahl.dev').then(function(){var t=this;t.textContent='Copied!';setTimeout(function(){t.textContent='Hire me'},2000)}.bind(this));return false"
-        >Hire me</a>
+        <a href="https://stordahl.dev">Hire me</a>
       </footer>
     </main>
   );
