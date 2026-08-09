@@ -38,13 +38,13 @@ type QuerySpindlePipelineResponse = {
       // 'timeout' can also mean failed as well maybe?
       status: "success" | "failed" | 'timeout'
     }]
-  }]
+  }] | null
 }
 
 const USER_AGENT = "cardd.cc";
 
 async function getRepoByDid(did: string): Promise<RepoByDidResponse> {
-  const response = await fetch(`https://api.tangled.org/xrpc/sh.tangled.repo.getRepoByRepoDid?repoDid=${did}`, {
+  const response = await fetch(`https://bobbin.klbr.net/xrpc/sh.tangled.repo.getRepoByRepoDid?repoDid=${did}`, {
     headers: {
       'User-Agent': USER_AGENT
     }
@@ -94,7 +94,7 @@ export class TangledSpindleStatus extends Badge {
     }
 
     const spindle = await querySpindlePipelines(repo.value.spindle, repoDid);
-    if (!spindle.pipelines.length) throw new Error(`Spindle has no runs yet`);
+    if (spindle.pipelines === null) throw new Error(`Spindle has no runs yet`);
 
     const isSuccessfulRun = spindle.pipelines[0].workflows[0].status === 'success';
 
