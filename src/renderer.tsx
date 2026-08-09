@@ -11,7 +11,7 @@ interface BadgeProps {
   fontSize: number;
 }
 
-function badgeWidth(label: string, value: string, fontSize: number, paddingX: number, borderWidth: number): number {
+export function badgeWidth(label: string, value: string, fontSize: number, paddingX: number, borderWidth: number): number {
   const separatorWidth = 3;
   const charWidth = fontSize * 0.6;
   const textWidth = (label.length + value.length + separatorWidth) * charWidth;
@@ -85,13 +85,13 @@ export async function renderErrorBadge(
   return renderBadge(label, value, { ...css, bg: "#d73a49" }, fonts);
 }
 
-function extractInner(svg: string): string {
+export function extractInner(svg: string): string {
   return svg
     .replace(/^[\s\S]*?<svg[^>]*>/, "")
     .replace(/<\/svg>[\s\S]*$/, "");
 }
 
-function mergeAuto(darkSVG: string, lightSVG: string): string {
+export function mergeAuto(darkSVG: string, lightSVG: string): string {
   const viewBox = darkSVG.match(/viewBox="([^"]+)"/)?.[1] ?? "0 0 200 20";
   const width = darkSVG.match(/width="([^"]+)"/)?.[1] ?? "200";
   const height = darkSVG.match(/height="([^"]+)"/)?.[1] ?? "20";

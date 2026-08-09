@@ -43,7 +43,7 @@ app.get("/fonts/Datatype-Regular.ttf", (c) => {
   });
 });
 
-function fragment(src: string) {
+export function fragment(src: string) {
   return `<div class="badge-preview"><img class="badge-img" src="${src}" /></div><div class="demo-url"><code class="badge-code">cardd.cc${src}</code></div>`;
 }
 
