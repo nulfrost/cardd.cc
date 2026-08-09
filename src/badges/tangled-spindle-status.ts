@@ -82,7 +82,6 @@ export class TangledSpindleStatus extends Badge {
 
   demoPresets = [
     { label: "passing", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" },
-    { label: "failing", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" }
   ];
 
   async fetch(c: Context) {
