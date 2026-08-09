@@ -2,18 +2,12 @@ import type { Context } from "hono";
 import type { Env } from "../utils/cache.js";
 import { Badge } from "./types.js";
 
-export function formatStars(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
-  return String(n);
-}
-
-export class GhStarsBadge extends Badge {
-  id = "gh-stars";
-  title = "GitHub stars";
-  description = "Star count from the GitHub API";
-  path = "/gh/stars/:owner/:repo";
-  examplePath = "/gh/stars/sveltejs/svelte";
+export class GhIssuesBadge extends Badge {
+  id = "gh-issues";
+  title = "GitHub issues";
+  description = "Open issue count from the GitHub API";
+  path = "/gh/issues/:owner/:repo";
+  examplePath = "/gh/issues/sveltejs/svelte";
 
   pathParams = [
     { name: "owner", description: "GitHub user or organization" },
@@ -40,14 +34,15 @@ export class GhStarsBadge extends Badge {
     if (env.GITHUB_TOKEN) {
       headers["Authorization"] = `Bearer ${env.GITHUB_TOKEN}`;
     }
-    const resp = await fetch(`https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`, {
-      headers,
-    });
+    const resp = await fetch(
+      `https://api.github.com/repos/${encodeURIComponent(owner)}/${encodeURIComponent(repo)}`,
+      { headers },
+    );
     if (resp.status === 404) throw new Error("not found");
     if (resp.status === 403) throw new Error("rate limited");
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = (await resp.json()) as { stargazers_count: number };
-    return { label: `${owner}/${repo}`, value: formatStars(data.stargazers_count) };
+    const data = (await resp.json()) as { open_issues_count: number };
+    return { label: `${owner}/${repo}`, value: `${data.open_issues_count} open` };
   }
 
   onError(err: Error, c: Context) {

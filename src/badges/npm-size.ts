@@ -1,18 +1,18 @@
 import type { Context } from "hono";
 import { Badge } from "./types.js";
 
-export function formatDownloads(n: number): string {
-  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1)}M`;
-  if (n >= 1_000) return `${(n / 1_000).toFixed(1)}k`;
-  return String(n);
+export function formatSize(bytes: number): string {
+  if (bytes >= 1_000_000) return `${(bytes / 1_000_000).toFixed(1)} MB`;
+  if (bytes >= 1_000) return `${(bytes / 1_000).toFixed(1)} kB`;
+  return `${bytes} B`;
 }
 
-export class NpmDownloadsBadge extends Badge {
-  id = "npm-d";
-  title = "npm downloads";
-  description = "Weekly downloads from npm";
-  path = "/npm/d/:pkg";
-  examplePath = "/npm/d/svelte";
+export class NpmSizeBadge extends Badge {
+  id = "npm-size";
+  title = "npm bundle size";
+  description = "Minified + gzipped size from Bundlephobia";
+  path = "/npm/size/:pkg";
+  examplePath = "/npm/size/svelte";
 
   pathParams = [{ name: "pkg", description: "npm package name" }];
 
@@ -28,11 +28,11 @@ export class NpmDownloadsBadge extends Badge {
   async fetch(c: Context) {
     const pkg = c.req.param("pkg") ?? "";
     const resp = await fetch(
-      `https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(pkg)}`,
+      `https://bundlephobia.com/api/size?package=${encodeURIComponent(pkg)}`,
     );
     if (!resp.ok) throw new Error("not found");
-    const data = (await resp.json()) as { downloads: number };
-    return { label: pkg, value: formatDownloads(data.downloads) };
+    const data = (await resp.json()) as { gzip: number };
+    return { label: pkg, value: formatSize(data.gzip) };
   }
 
   onError(err: Error, c: Context) {

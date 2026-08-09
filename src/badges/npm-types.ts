@@ -1,12 +1,12 @@
 import type { Context } from "hono";
 import { Badge } from "./types.js";
 
-export class NpmVersionBadge extends Badge {
-  id = "npm-v";
-  title = "npm version";
-  description = "Latest version from the npm registry";
-  path = "/npm/v/:pkg";
-  examplePath = "/npm/v/svelte";
+export class NpmTypesBadge extends Badge {
+  id = "npm-types";
+  title = "npm type definitions";
+  description = "Whether the package includes type definitions";
+  path = "/npm/types/:pkg";
+  examplePath = "/npm/types/svelte";
 
   pathParams = [{ name: "pkg", description: "npm package name" }];
 
@@ -21,10 +21,16 @@ export class NpmVersionBadge extends Badge {
 
   async fetch(c: Context) {
     const pkg = c.req.param("pkg") ?? "";
-    const resp = await fetch(`https://registry.npmjs.org/${encodeURIComponent(pkg)}/latest`);
+    const resp = await fetch(
+      `https://registry.npmjs.org/${encodeURIComponent(pkg)}/latest`,
+    );
     if (!resp.ok) throw new Error("not found");
-    const data = (await resp.json()) as { version: string };
-    return { label: pkg, value: `v${data.version}` };
+    const data = (await resp.json()) as {
+      types?: string;
+      typings?: string;
+    };
+    const hasTypes = !!(data.types || data.typings);
+    return { label: pkg, value: hasTypes ? "included" : "none" };
   }
 
   onError(err: Error, c: Context) {
