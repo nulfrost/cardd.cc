@@ -73,16 +73,16 @@ export class TangledSpindleStatus extends Badge {
   id = "tangled-spindle-status";
   title = "Tangled Spindle Status";
   description = "CI status for a tangled spindle service";
-  path = "/tg/spindle-status/:repoDid";
-  examplePath = "/tg/spindle-status/did:plc:j5hmlfdrwkvtxm7cjmu7j2is";
+  path = "/tg/spindle/status/:repoDid";
+  examplePath = "/tg/spindle/status/did:plc:j5hmlfdrwkvtxm7cjmu7j2is";
 
   pathParams = [
     { name: "repoDid", description: "Tangled Repo DID" }
   ];
 
   demoPresets = [
-    { label: "status", value: "passing" },
-    { label: "status", value: "failing" }
+    { label: "passing", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" },
+    { label: "failing", value: "did:plc:j5hmlfdrwkvtxm7cjmu7j2is" }
   ];
 
   async fetch(c: Context) {
