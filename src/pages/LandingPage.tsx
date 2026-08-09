@@ -39,10 +39,31 @@ const htmlBodyClass = css`
       overflow-x: auto;
     }
     code { color: var(--text-code); }
-    table { border-collapse: collapse; }
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 400px;
+    }
+    thead {
+      border-bottom: 2px solid var(--border-primary);
+    }
+    th {
+      padding: 8px 16px 8px 0;
+      text-align: left;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
     td {
-      padding: 6px 16px 6px 0;
+      padding: 8px 16px 8px 0;
       vertical-align: top;
+      border-bottom: 1px solid var(--border-secondary);
+    }
+    tr:last-child td {
+      border-bottom: none;
     }
   }
 `;

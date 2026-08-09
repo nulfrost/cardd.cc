@@ -216,64 +216,68 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
         <BadgePreview src="/badge/license-MIT?size=large" alt="large badge" />
 
         <h3>Reference table</h3>
-        <table>
-          <thead>
-            <tr>
-              <td>Param</td>
-              <td>Format</td>
-              <td>Default</td>
-              <td>Example</td>
-            </tr>
-          </thead>
-          <tr>
-            <td><code>bg</code></td>
-            <td>hex | named color</td>
-            <td><code>2d2d2e</code></td>
-            <td><code>bg=2ea44f</code></td>
-          </tr>
-          <tr>
-            <td><code>color</code></td>
-            <td>hex | named color</td>
-            <td><code>fff</code></td>
-            <td><code>color=000</code></td>
-          </tr>
-          <tr>
-            <td><code>radius</code></td>
-            <td>integer (px)</td>
-            <td><code>4</code></td>
-            <td><code>radius=0</code></td>
-          </tr>
-          <tr>
-            <td><code>border</code></td>
-            <td><code>width+style+color</code></td>
-            <td>none</td>
-            <td><code>border=2+solid+f00</code></td>
-          </tr>
-          <tr>
-            <td><code>borderColor</code></td>
-            <td>hex</td>
-            <td><code>2d2d2e</code></td>
-            <td><code>borderColor=f00</code></td>
-          </tr>
-          <tr>
-            <td><code>font</code></td>
-            <td>Google Fonts name</td>
-            <td><code>Datatype</code></td>
-            <td><code>font=Inter</code></td>
-          </tr>
-          <tr>
-            <td><code>theme</code></td>
-            <td><code>light</code> | <code>dark</code> | <code>auto</code></td>
-            <td><code>dark</code></td>
-            <td><code>theme=light</code></td>
-          </tr>
-          <tr>
-            <td><code>size</code></td>
-            <td><code>base</code> | <code>large</code></td>
-            <td><code>base</code></td>
-            <td><code>size=large</code></td>
-          </tr>
-        </table>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Param</th>
+                <th>Format</th>
+                <th>Default</th>
+                <th>Example</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>bg</code></td>
+                <td>hex | named color</td>
+                <td><code>2d2d2e</code></td>
+                <td><code>bg=2ea44f</code></td>
+              </tr>
+              <tr>
+                <td><code>color</code></td>
+                <td>hex | named color</td>
+                <td><code>fff</code></td>
+                <td><code>color=000</code></td>
+              </tr>
+              <tr>
+                <td><code>radius</code></td>
+                <td>integer (px)</td>
+                <td><code>4</code></td>
+                <td><code>radius=0</code></td>
+              </tr>
+              <tr>
+                <td><code>border</code></td>
+                <td><code>width+style+color</code></td>
+                <td>none</td>
+                <td><code>border=2+solid+f00</code></td>
+              </tr>
+              <tr>
+                <td><code>borderColor</code></td>
+                <td>hex</td>
+                <td><code>2d2d2e</code></td>
+                <td><code>borderColor=f00</code></td>
+              </tr>
+              <tr>
+                <td><code>font</code></td>
+                <td>Google Fonts name</td>
+                <td><code>Datatype</code></td>
+                <td><code>font=Inter</code></td>
+              </tr>
+              <tr>
+                <td><code>theme</code></td>
+                <td><code>light</code> | <code>dark</code> | <code>auto</code></td>
+                <td><code>dark</code></td>
+                <td><code>theme=light</code></td>
+              </tr>
+              <tr>
+                <td><code>size</code></td>
+                <td><code>base</code> | <code>large</code></td>
+                <td><code>base</code></td>
+                <td><code>size=large</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section id="api-reference">
@@ -289,16 +293,26 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
         ))}
 
         <h3 id="response-codes">Response codes</h3>
-        <table>
-          <tr>
-            <td><code>200</code></td>
-            <td>Badge rendered successfully</td>
-          </tr>
-          <tr>
-            <td><code>500</code></td>
-            <td>Upstream fetch failed or render error — an error badge is served</td>
-          </tr>
-        </table>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Meaning</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>200</code></td>
+                <td>Badge rendered successfully</td>
+              </tr>
+              <tr>
+                <td><code>500</code></td>
+                <td>Upstream fetch failed or render error — an error badge is served</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <footer class={mobileFooterClass}>
