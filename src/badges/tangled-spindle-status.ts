@@ -44,7 +44,7 @@ type QuerySpindlePipelineResponse = {
 const USER_AGENT = "cardd.cc";
 
 async function getRepoByDid(did: string): Promise<RepoByDidResponse> {
-  const response = await fetch(`https://bobbin.klbr.net/xrpc/sh.tangled.repo.getRepoByRepoDid?repoDid=${did}`, {
+  const response = await fetch(`https://api.tangled.org/xrpc/sh.tangled.repo.getRepoByRepoDid?repoDid=${did}`, {
     headers: {
       'User-Agent': USER_AGENT
     }
