@@ -45,9 +45,13 @@ const hireMeClass = css`
     color: var(--text-dim);
     line-height: 1.5;
   }
-  a {
+  div:has(a.button) {
+    display: flex;
+    gap: 3px;
+  }
+  a.button {
     display: inline-block;
-    padding: 5px 12px;
+    padding: 4px 10px;
     font-size: 13px;
     color: var(--accent);
     border: 1px solid var(--border-primary);
@@ -127,11 +131,12 @@ export default function DemoPanel({ badges }: { badges: Badge[] }) {
       </div>
 
       <div class={hireMeClass}>
-        <p>Built by Jacob Stordahl. Available for contract work.</p>
-        <a
-          href="#"
-          onclick="navigator.clipboard.writeText('jacob@stordahl.dev').then(function(){var t=this;t.textContent='Copied!';setTimeout(function(){t.textContent='Hire me'},2000)}.bind(this));return false"
-        >Hire me</a>
+        <p>Built with ❤︎ in Minneapolis by <a href="https://stordahl.dev">Jacob Stordahl.</a></p>
+        <div>
+          <a class="button" href="https://bsky.app/profile/stordahl.dev">follow me</a>
+          <a class="button" href="https://stordahl.dev">hit me up</a>
+          <a class="button" href="#" data-copy="jacob@stordahl.dev">hire me</a>
+        </div>
       </div>
     </aside>
   );

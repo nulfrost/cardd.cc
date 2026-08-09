@@ -145,17 +145,7 @@ export default function LandingPage({ badges }: { badges: import("../badges/type
           <MainContent badges={badges} />
           <DemoPanel badges={badges} />
         </div>
-        <script>{`
-          document.querySelectorAll('nav a[href^="#"]').forEach(link => {
-            link.addEventListener('click', e => {
-              e.preventDefault();
-              const target = document.getElementById(link.getAttribute('href').slice(1));
-              if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }
-            });
-          });
-        `}</script>
+        <script src="/client.js"></script>
       </body>
     </html>
   );

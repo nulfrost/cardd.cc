@@ -266,15 +266,6 @@ export default function MainContent({ badges }: { badges: Badge[] }) {
           </>
         ))}
 
-        <h3 id="route-fonts">GET /fonts/Datatype-Regular.ttf</h3>
-        <p>
-          Serves the bundled Datatype typeface used as the default badge font.
-          Cached for one year with immutable directive.
-        </p>
-
-        <h3 id="route-index">GET /</h3>
-        <p>This documentation page.</p>
-
         <h3 id="response-codes">Response codes</h3>
         <table>
           <tr>
